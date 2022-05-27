@@ -1,6 +1,6 @@
-import numpy as np
-
-pi = np.pi
+from math import sin
+from math import cos
+from math import pi
 
 # Complex number
 class CNum():
@@ -163,13 +163,13 @@ class Quaternion():
         vec = self
         if base_vector.r.m**2+base_vector.i.m**2+base_vector.j.m**2+base_vector.k.m**2 == 1 and isinstance(base_vector, Quaternion) and isinstance(degree, float) or isinstance(degree, int):
             bv = base_vector
-            bv.r.m = np.cos(degree/2)
-            bv = bv.m_except_real(np.sin(degree/2))
+            bv.r.m = cos(degree/2)
+            bv = bv.m_except_real(sin(degree/2))
             bv = bv.dotp(vec)
 
             bv1 = base_vector
-            bv1.r.m = np.cos(-degree/2)
-            bv1 = bv1.m_except_real(np.sin(-degree/2))
+            bv1.r.m = cos(-degree/2)
+            bv1 = bv1.m_except_real(sin(-degree/2))
             return bv.dotp(bv1)
         else:
             raise ValueError('Base vector\'s lengthmust equal to 1, degree must be float or int')
