@@ -1,6 +1,37 @@
-# QM
+# Quaternions
 Python library for working with complex numbers and quaternions
 
 ```python
-print("Test")
+
+import quaternions as qts
+
+# equvivalent
+quaternion = qts.CVNum(1, 2, 3, 4)
+quaternion = qts.CVNum([1, 2, 3, 4])
+
+print(quaternions)
+# 1+2i+3j+4k
+
+quaternion = qts.CVNum(0, 1, 2, 3)
+quaternion = qts.CVNum(1, 2, 3)
+
+print(quaternion)
+# 1i+2j+3k
+
+print(CVNum(1, 2, 3, 4)*CVNum(4, 3, 2, 1))
+# -12+6i+24j+12k
+
+print(CVNum(4, 3, 2, 1)*CVNum(1, 2, 3, 4))
+# -12+16i+4j+22k
+
+# .rotate({base vector}, {angle (radians)})
+# note: if angle is positive, than rotation is counter clockwise, and vice versa
+print(CVNum([0, 1, 0]).rotate([1, 0, 0], qts.pi/2))
+# 0i+0.0j+k
+# note: if you see '0' it means that multiplier is exactly zero, but if you see '0.0' it means that value was rounded to zero
+# when displaying quaternion library rounds all values to three digets after point
+
+# if you want the library to display multipliers precisely specify it with 'precise' fucntion
+print(CVNum([0, 1, 0]).rotate([1, 0, 0], qts.pi/2).precise())
+# 0i+2.220446049250313e-16j+k
 ```

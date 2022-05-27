@@ -1,5 +1,7 @@
 import numpy as np
 
+pi = np.pi
+
 class CNum():
     # m - multiplier
     # b - base
@@ -61,7 +63,24 @@ class CNum():
         if self.b == 'r':
             add = ''
         if self.m != 1 and self.m != -1 or add == '':
-            return str(round(self.m, 3))+add
+            if self.m == 0:
+                return '0'+add
+            else:
+                return str(round(self.m, 3))+add
+        elif self.m == 1 and add != '':
+            return add
+        elif self.m == -1 and add != '':
+            return '-'+add
+    
+    def precise(self):
+        add = self.b
+        if self.b == 'r':
+            add = ''
+        if self.m != 1 and self.m != -1 or add == '':
+            if self.m == 0:
+                return '0'+add
+            else:
+                return str(self.m)+add
         elif self.m == 1 and add != '':
             return add
         elif self.m == -1 and add != '':
@@ -109,9 +128,25 @@ class CVNum():
         else:
             raise ValueError('Function ony accepts two agrumnts of type CVNum')
     
-    def dotp(self, b):
-        return self.dot(self, b)
+    def __mul__(self, b):
+        if isinstance(b, CVNum):
+            return self.dot(self, b)
+        elif isinstance(b, int) or isinstance(b, float):
+            return CVNum(self.r.m*b, self.i.m*b, self.j.m*b, self.k.m*b)
+        elif isinstance(b, CNum):
+            return CVNum(self.r.dot(b), self.i.dot(b), self.j.dot(b), self.k.dot(b))
+        else:
+            raise ValueError('Class CVNum can\'t ne multiplied by this type of objects')
     
+    def __rmul__(self, b):
+        if isinstance(b, int) or isinstance(b, float):
+            return CVNum(self.r.m*b, self.i.m*b, self.j.m*b, self.k.m*b)
+        else:
+            raise ValueError('Class CVNum can\'t ne multiplied by this type of objects from the right')
+    
+    def dotp(self, other):
+        return self.dot(self, other)
+
     def m(self, ml):
         return CVNum(self.r.m * ml, self.i.m * ml, self.j.m * ml, self.k.m * ml)
     
@@ -119,8 +154,13 @@ class CVNum():
         return CVNum(self.r.m, self.i.m * m, self.j.m * m, self.k.m * m)
     
     def rotate(self, base_vector, degree):
+        if isinstance(base_vector, list):
+            base_vector = CVNum(base_vector)
+        else:
+            raise ValueError('You have to provide base vector as a list or as a CVNum object')
+
         vec = self
-        if base_vector.i.m**2+base_vector.j.m**2+base_vector.k.m**2 == 1 and base_vector.r.m == 0 and isinstance(base_vector, CVNum) and isinstance(degree, float) or isinstance(degree, int):
+        if base_vector.r.m**2+base_vector.i.m**2+base_vector.j.m**2+base_vector.k.m**2 == 1 and isinstance(base_vector, CVNum) and isinstance(degree, float) or isinstance(degree, int):
             bv = base_vector
             bv.r.m = np.cos(degree/2)
             bv = bv.m_except_real(np.sin(degree/2))
@@ -131,13 +171,16 @@ class CVNum():
             bv1 = bv1.m_except_real(np.sin(-degree/2))
             return bv.dotp(bv1)
         else:
-            raise ValueError('Base vector must have 0 real part, and degree must be float or int')
+            raise ValueError('Base vector\'s lengthmust equal to 1, degree must be float or int')
 
     def as_list(self):
-        if self.r != 0:
-            return [self.r, self.i, self.j, self.k]
+        return [self.r, self.i, self.j, self.k]
+    
+    def as_vector(self):
+        if self.r.m != 0:
+            return [self.r.m, self.i.m, self.j.m, self.k.m]
         else:
-            return [self.i, self.j, self.k]
+            return [self.i.m, self.j.m, self.k.m]
 
     def __init__(self, f, s='null', t='null', ft='null'):
         if isinstance(f, list):
@@ -199,3 +242,17 @@ class CVNum():
             sn[2] = '+'
         
         return (front+sn[0]+self.i.__str__()+sn[1]+self.j.__str__()+sn[2]+self.k.__str__())
+    
+    def precise(self):
+        front = ''
+        if self.r.m != 0:
+            front = str(self.r.m)
+        sn = ['', '', '']
+        if self.i.m >= 0 and front != '':
+            sn[0] = '+'
+        if self.j.m >= 0:
+            sn[1] = '+'
+        if self.k.m >= 0:
+            sn[2] = '+'
+        
+        return (front+sn[0]+self.i.precise()+sn[1]+self.j.precise()+sn[2]+self.k.precise())
