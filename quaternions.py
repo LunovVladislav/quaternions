@@ -41,7 +41,7 @@ class CNum():
             m = n*f.m*an.m
             return CNum(m, fb)
 
-    def multiply(self, an):
+    def dotp(self, an):
         return self.dot(self, an)
 
     def __init__(self, m, b='r'):
@@ -78,7 +78,7 @@ class CVNum():
 
             for i in range(4):
                 for j in range(4):
-                    arr.append(al[i].multiply(bl[j]))
+                    arr.append(al[i].dotp(bl[j]))
             
             p = [
                 [],
@@ -109,7 +109,7 @@ class CVNum():
         else:
             raise ValueError('Function ony accepts two agrumnts of type CVNum')
     
-    def multiply(self, b):
+    def dotp(self, b):
         return self.dot(self, b)
     
     def m(self, ml):
@@ -124,12 +124,12 @@ class CVNum():
             bv = base_vector
             bv.r.m = np.cos(degree/2)
             bv = bv.m_except_real(np.sin(degree/2))
-            bv = bv.multiply(vec)
+            bv = bv.dotp(vec)
 
             bv1 = base_vector
             bv1.r.m = np.cos(-degree/2)
             bv1 = bv1.m_except_real(np.sin(-degree/2))
-            return bv.multiply(bv1)
+            return bv.dotp(bv1)
         else:
             raise ValueError('Base vector must have 0 real part, and degree must be float or int')
 
