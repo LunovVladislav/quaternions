@@ -134,7 +134,10 @@ class CVNum():
             raise ValueError('Base vector must have 0 real part, and degree must be float or int')
 
     def as_list(self):
-        return [self.r, self.i, self.j, self.k]
+        if self.r != 0:
+            return [self.r, self.i, self.j, self.k]
+        else:
+            return [self.i, self.j, self.k]
 
     def __init__(self, f, s='null', t='null', ft='null'):
         if isinstance(f, list):
