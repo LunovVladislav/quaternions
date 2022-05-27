@@ -196,6 +196,3 @@ class CVNum():
             sn[2] = '+'
         
         return (front+sn[0]+self.i.__str__()+sn[1]+self.j.__str__()+sn[2]+self.k.__str__())
-
-v = CVNum(0, 1, 0).rotate(CVNum(1, 0, 0), np.pi/2)
-print(v)
