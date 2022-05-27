@@ -2,6 +2,7 @@ import numpy as np
 
 pi = np.pi
 
+# Complex number
 class CNum():
     # m - multiplier
     # b - base
@@ -87,10 +88,10 @@ class CNum():
             return '-'+add
 
 
-class CVNum():
+class Quaternion():
     @staticmethod
     def dot(a, b):
-        if isinstance(a, CVNum) and isinstance(b, CVNum):
+        if isinstance(a, Quaternion) and isinstance(b, Quaternion):
             arr = []
             al = a.as_list()
             bl = b.as_list()
@@ -124,43 +125,43 @@ class CVNum():
                     r += p[i][j].m
                 res[i] = r
             
-            return CVNum(res)
+            return Quaternion(res)
         else:
-            raise ValueError('Function ony accepts two agrumnts of type CVNum')
+            raise ValueError('Function ony accepts two agrumnts of type Quaternion')
     
     def __mul__(self, b):
-        if isinstance(b, CVNum):
+        if isinstance(b, Quaternion):
             return self.dot(self, b)
         elif isinstance(b, int) or isinstance(b, float):
-            return CVNum(self.r.m*b, self.i.m*b, self.j.m*b, self.k.m*b)
+            return Quaternion(self.r.m*b, self.i.m*b, self.j.m*b, self.k.m*b)
         elif isinstance(b, CNum):
-            return CVNum(self.r.dot(b), self.i.dot(b), self.j.dot(b), self.k.dot(b))
+            return Quaternion(self.r.dot(b), self.i.dot(b), self.j.dot(b), self.k.dot(b))
         else:
-            raise ValueError('Class CVNum can\'t ne multiplied by this type of objects')
+            raise ValueError('Class Quaternion can\'t ne multiplied by this type of objects')
     
     def __rmul__(self, b):
         if isinstance(b, int) or isinstance(b, float):
-            return CVNum(self.r.m*b, self.i.m*b, self.j.m*b, self.k.m*b)
+            return Quaternion(self.r.m*b, self.i.m*b, self.j.m*b, self.k.m*b)
         else:
-            raise ValueError('Class CVNum can\'t ne multiplied by this type of objects from the right')
+            raise ValueError('Class Quaternion can\'t ne multiplied by this type of objects from the right')
     
     def dotp(self, other):
         return self.dot(self, other)
 
     def m(self, ml):
-        return CVNum(self.r.m * ml, self.i.m * ml, self.j.m * ml, self.k.m * ml)
+        return Quaternion(self.r.m * ml, self.i.m * ml, self.j.m * ml, self.k.m * ml)
     
     def m_except_real(self, m):
-        return CVNum(self.r.m, self.i.m * m, self.j.m * m, self.k.m * m)
+        return Quaternion(self.r.m, self.i.m * m, self.j.m * m, self.k.m * m)
     
     def rotate(self, base_vector, degree):
         if isinstance(base_vector, list):
-            base_vector = CVNum(base_vector)
+            base_vector = Quaternion(base_vector)
         else:
-            raise ValueError('You have to provide base vector as a list or as a CVNum object')
+            raise ValueError('You have to provide base vector as a list or as a Quaternion object')
 
         vec = self
-        if base_vector.r.m**2+base_vector.i.m**2+base_vector.j.m**2+base_vector.k.m**2 == 1 and isinstance(base_vector, CVNum) and isinstance(degree, float) or isinstance(degree, int):
+        if base_vector.r.m**2+base_vector.i.m**2+base_vector.j.m**2+base_vector.k.m**2 == 1 and isinstance(base_vector, Quaternion) and isinstance(degree, float) or isinstance(degree, int):
             bv = base_vector
             bv.r.m = np.cos(degree/2)
             bv = bv.m_except_real(np.sin(degree/2))
