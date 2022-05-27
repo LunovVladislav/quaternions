@@ -11,6 +11,7 @@ quaternion = Quaternion([1, 2, 3, 4])
 print(quaternion)
 # 1+2i+3j+4k
 
+# equvivalent
 quaternion = Quaternion(0, 1, 2, 3)
 quaternion = Quaternion(1, 2, 3)
 
