@@ -28,7 +28,7 @@ print(Quaternion(4, 3, 2, 1)*Quaternion(1, 2, 3, 4))
 # note: if angle is positive, than rotation is counter clockwise, and vice versa
 print(Quaternion([0, 1, 0]).rotate([1, 0, 0], pi/2))
 # 0i+0.0j+k
-# note: if you see '0' it means that multiplier is exactly zero, but if you see '0.0' it means that value was rounded to zero
+# note: if the program displays '0' it means that multiplier is exactly zero, but if the output is '0.0' it means that value was rounded to zero
 # when displaying quaternion library rounds all values to three digets after point
 
 # if you want the library to display multipliers precisely specify it with 'precise' fucntion
