@@ -29,9 +29,9 @@ print(Quaternion(4, 3, 2, 1)*Quaternion(1, 2, 3, 4))
 print(Quaternion([0, 1, 0]).rotate([1, 0, 0], pi/2))
 # 0i+0.0j+k
 # note: if the program displays '0' it means that multiplier is exactly zero, but if the output is '0.0' it means that value was rounded to zero
-# by default, values in displayed quaternions are rounded to three digets after point
+# by default, values in displayed quaternions are rounded to three digits after decimal point
 
-# if you want the library to display multipliers precisely, specify it with 'precise' fucntion
+# if you want multipliers to be displayed precisely, specify it with 'precise' fucntion
 print(Quaternion([0, 1, 0]).rotate([1, 0, 0], pi/2).precise())
 # 0i+2.220446049250313e-16j+k
 ```
